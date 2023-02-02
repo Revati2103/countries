@@ -1,10 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
-mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
+
 
 export default function App() {
 
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 const mapContainer = useRef(null);
 const map = useRef(null);
 const [lng, setLng] = useState(-70.9);
@@ -19,6 +21,13 @@ useEffect(() => {
       center: [lng, lat],
       zoom: zoom
     });
+    const geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl,
+      position: 'top-left'
+    });
+
+    map.current.addControl(geocoder);
   });
 
   useEffect(() => {
