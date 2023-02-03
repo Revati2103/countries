@@ -15,11 +15,11 @@ const map = useRef(null);
 const [lng, setLng] = useState(-70.9);
 const [lat, setLat] = useState(42.35);
 const [zoom, setZoom] = useState(9);
+const [coordinates, setCoordinates] = useState([0, 0]);
 
 /* Given a query in the form "lng, lat" or "lat, lng"
-* returns the matching geographic coordinate(s)
-* as search results in carmen geojson format,
-* https://github.com/mapbox/carmen/blob/master/carmen-geojson.md */
+* returns the matching geographic coordinate(s) */
+
 const coordinatesGeocoder = function (query) {
   // Match anything which looks like
   // decimal degrees coordinate pair.
@@ -73,8 +73,10 @@ useEffect(() => {
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v12',
       center: [lng, lat],
-      zoom: zoom
+      zoom: zoom,
     });
+   
+
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
@@ -84,10 +86,15 @@ useEffect(() => {
     });
 
     map.current.addControl(geocoder);
+
+   
+
     map.current.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
       map.current.addControl(new mapboxgl.FullscreenControl(), 'bottom-left');
       map.current.addControl(new mapboxgl.GeolocateControl(), 'bottom-left');
+
   });
+
 
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
@@ -97,6 +104,7 @@ useEffect(() => {
       setZoom(map.current.getZoom().toFixed(2));
     });
   });
+
 
   return (
     <>
