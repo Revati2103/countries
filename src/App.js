@@ -12,8 +12,8 @@ const mapContainer = useRef(null);
 const geocoderContainerRef = useRef(null);
 const map = useRef(null);
 
-const [lng, setLng] = useState(-70.9);
-const [lat, setLat] = useState(42.35);
+const [lng, setLng] = useState(0);
+const [lat, setLat] = useState(0);
 const [zoom, setZoom] = useState(9);
 const [coordinates, setCoordinates] = useState([0, 0]);
 
@@ -71,12 +71,20 @@ useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v12',
+      // style: 'mapbox://styles/mapbox/streets-v12',
+      style: 'mapbox://styles/mapbox/satellite-streets-v12',
       center: [lng, lat],
       zoom: zoom,
+      pitch: 80,
+      bearing: 41,
+      antialias: true,
     });
-   
 
+   //new
+    map.current.on("load", () => {
+
+       
+    
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
@@ -87,13 +95,45 @@ useEffect(() => {
 
     map.current.addControl(geocoder);
 
+    map.current.addSource("terrain-data", {
+      type: "raster-dem",
+      url: "https://api.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.pngraw?access_token=mapboxgl.accessToken",
+      tileSize: 512,
+      maxzoom: 14
+    });
+
+    map.current.addLayer({
+      "id": "terrain-data",
+      "type": "hillshade",
+      "source": "terrain-data",
+      "paint": {
+        "hillshade-illumination-direction": 335,
+        "hillshade-illumination-anchor": "map",
+        "hillshade-exaggeration": 1.5,
+        "hillshade-shadow-color": "#000000",
+        "hillshade-highlight-color": "#FFFFFF",
+        "hillshade-accent-color": "#000000"
+      }
+    });
+
+    map.current.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
+
+    geocoder.on("result", function(e) {
+      console.log("Geocoder result", e.result);
+      console.log({Long: e.result.center[0] , Lat: e.result.center[1]})
+    });
+
+     });
+
    
 
     map.current.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
       map.current.addControl(new mapboxgl.FullscreenControl(), 'bottom-left');
       map.current.addControl(new mapboxgl.GeolocateControl(), 'bottom-left');
 
-  });
+      return () => map.current.remove();
+
+  }, []);
 
 
   useEffect(() => {
