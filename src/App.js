@@ -83,7 +83,7 @@ useEffect(() => {
    //new
     map.current.on("load", () => {
 
-       
+     
     
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
@@ -109,14 +109,13 @@ useEffect(() => {
       "paint": {
         "hillshade-illumination-direction": 335,
         "hillshade-illumination-anchor": "map",
-        "hillshade-exaggeration": 1.5,
+        "hillshade-exaggeration": 1,
         "hillshade-shadow-color": "#000000",
         "hillshade-highlight-color": "#FFFFFF",
         "hillshade-accent-color": "#000000"
       }
     });
 
-    map.current.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.5 });
 
     geocoder.on("result", function(e) {
       console.log("Geocoder result", e.result);
