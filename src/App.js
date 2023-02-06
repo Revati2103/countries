@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-
+import axios from "axios";
 
 
 export default function App() {
@@ -116,11 +116,27 @@ useEffect(() => {
       }
     });
 
+// API call 
 
     geocoder.on("result", function(e) {
+
+      console.log({Place: e.result.place_name});
+      const options = {
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
+          'X-RapidAPI-Host': 'timezone-api1.p.rapidapi.com'
+        }
+      };
+      
+      fetch(`https://timezone-api1.p.rapidapi.com/time?place=${e.result.place_name}`, options)
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(err => console.error(err));
       console.log("Geocoder result", e.result);
       console.log({Long: e.result.center[0] , Lat: e.result.center[1]})
     });
+    
 
      });
 
