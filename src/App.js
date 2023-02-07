@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import axios from "axios";
+import axios from 'axios';
 
 
 export default function App() {
@@ -12,10 +12,12 @@ const mapContainer = useRef(null);
 const geocoderContainerRef = useRef(null);
 const map = useRef(null);
 
-const [lng, setLng] = useState(0);
-const [lat, setLat] = useState(0);
+const [lng, setLng] = useState(-74.50);
+const [lat, setLat] = useState(40.73);
 const [zoom, setZoom] = useState(9);
-const [coordinates, setCoordinates] = useState([0, 0]);
+const [countryData, setCountryData] = useState({});
+
+
 
 /* Given a query in the form "lng, lat" or "lat, lng"
 * returns the matching geographic coordinate(s) */
@@ -67,6 +69,21 @@ const coordinatesGeocoder = function (query) {
   return geocodes;
   };
 
+  useEffect(() => {
+
+    //`https://restcountries.com/v3.1/name/${name}?fullText=true`
+    axios
+      .get('https://restcountries.com/v2/all')
+      .then(response => {
+        setCountryData(response.data);
+        console.log(countryData);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
+
 useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -79,6 +96,7 @@ useEffect(() => {
       bearing: 41,
       antialias: true,
     });
+    
 
    //new
     map.current.on("load", () => {
@@ -90,7 +108,8 @@ useEffect(() => {
       mapboxgl: mapboxgl,
       container: geocoderContainerRef.current,
       localGeocoder: coordinatesGeocoder,
-      reverseGeocode: true
+      reverseGeocode: true,
+      types: 'country'
     });
 
     map.current.addControl(geocoder);
@@ -116,23 +135,25 @@ useEffect(() => {
       }
     });
 
+  
+
 // API call 
 
     geocoder.on("result", function(e) {
 
       console.log({Place: e.result.place_name});
-      const options = {
-        method: 'GET',
-        headers: {
-          'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
-          'X-RapidAPI-Host': 'timezone-api1.p.rapidapi.com'
-        }
-      };
+      // const options = {
+      //   method: 'GET',
+      //   headers: {
+      //     'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
+      //     'X-RapidAPI-Host': 'timezone-api1.p.rapidapi.com'
+      //   }
+      // };
       
-      fetch(`https://timezone-api1.p.rapidapi.com/time?place=${e.result.place_name}`, options)
-        .then(response => response.json())
-        .then(response => console.log(response))
-        .catch(err => console.error(err));
+      // fetch(`https://timezone-api1.p.rapidapi.com/time?place=${e.result.place_name}`, options)
+      //   .then(response => response.json())
+      //   .then(response => console.log(response))
+      //   .catch(err => console.error(err));
       console.log("Geocoder result", e.result);
       console.log({Long: e.result.center[0] , Lat: e.result.center[1]})
     });
@@ -150,6 +171,8 @@ useEffect(() => {
 
   }, []);
 
+  
+
 
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
@@ -165,7 +188,6 @@ useEffect(() => {
     <>
       <div ref={geocoderContainerRef} />
       <div ref={mapContainer} className="map-container"/>
-     
     </>
   );
 }
