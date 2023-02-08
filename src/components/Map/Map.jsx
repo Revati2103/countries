@@ -3,10 +3,11 @@ import './map.css'
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 
-import React, { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import axios from 'axios';
+
 
 const Map = () => {
 
@@ -18,8 +19,14 @@ const map = useRef(null);
 
 const [lng, setLng] = useState(-74.50);
 const [lat, setLat] = useState(40.73);
+
 const [zoom, setZoom] = useState(9);
-const [countryData, setCountryData] = useState({});
+const [countryDetails, setCountryDetails] = useState({});
+const [countryName, setCountryName] = useState("");
+
+
+
+
 
 
 
@@ -73,19 +80,16 @@ const coordinatesGeocoder = function (query) {
   return geocodes;
   };
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await axios.get(
+  //       `https://restcountries.com/v2/name/${countryName}`
+  //     );
 
-    //`https://restcountries.com/v3.1/name/${name}?fullText=true`
-    axios
-      .get('https://restcountries.com/v2/all')
-      .then(response => {
-        setCountryData(response.data);
-        console.log(countryData);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
+  //     setCountryDetails(response.data[0]);
+  //   };
+  //   fetchData();
+  // }, [countryName]);
 
 
 useEffect(() => {
@@ -105,8 +109,6 @@ useEffect(() => {
    //new
     map.current.on("load", () => {
 
-     
-    
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
@@ -117,6 +119,7 @@ useEffect(() => {
     });
 
     map.current.addControl(geocoder);
+
 
     map.current.addSource("terrain-data", {
       type: "raster-dem",
@@ -143,25 +146,15 @@ useEffect(() => {
 
 // API call 
 
-    geocoder.on("result", function(e) {
-
-      console.log({Place: e.result.place_name});
-      // const options = {
-      //   method: 'GET',
-      //   headers: {
-      //     'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
-      //     'X-RapidAPI-Host': 'timezone-api1.p.rapidapi.com'
-      //   }
-      // };
-      
-      // fetch(`https://timezone-api1.p.rapidapi.com/time?place=${e.result.place_name}`, options)
-      //   .then(response => response.json())
-      //   .then(response => console.log(response))
-      //   .catch(err => console.error(err));
-      console.log("Geocoder result", e.result);
-      console.log({Long: e.result.center[0] , Lat: e.result.center[1]})
+    // geocoder.on("result", function(e) {
+    //   console.log({Place: e.result.place_name});
+    //   console.log("Geocoder result", e.result);
+    //   console.log({Long: e.result.center[0] , Lat: e.result.center[1]})
+    // });
+    geocoder.on("result", (result) => {
+      let place = result.result.place_name
+      console.log(place);
     });
-    
 
      });
 
@@ -188,8 +181,10 @@ useEffect(() => {
   });
 
 
+
   return (
     <>
+
       <div ref={geocoderContainerRef} />
       <div ref={mapContainer} className="map-container"/>
     </>
