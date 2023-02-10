@@ -6,7 +6,7 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import { useRef, useEffect, useState } from 'react';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import axios from 'axios';
+// import axios from 'axios';
 
 
 const Map = () => {
@@ -21,13 +21,8 @@ const [lng, setLng] = useState(-74.50);
 const [lat, setLat] = useState(40.73);
 
 const [zoom, setZoom] = useState(9);
-const [countryDetails, setCountryDetails] = useState({});
-const [countryName, setCountryName] = useState("");
-
-
-
-
-
+// const [countryDetails, setCountryDetails] = useState({});
+// const [countryName, setCountryName] = useState("");
 
 
 /* Given a query in the form "lng, lat" or "lat, lng"
@@ -121,27 +116,6 @@ useEffect(() => {
     map.current.addControl(geocoder);
 
 
-    map.current.addSource("terrain-data", {
-      type: "raster-dem",
-      url: "https://api.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.pngraw?access_token=mapboxgl.accessToken",
-      tileSize: 512,
-      maxzoom: 14
-    });
-
-    map.current.addLayer({
-      "id": "terrain-data",
-      "type": "hillshade",
-      "source": "terrain-data",
-      "paint": {
-        "hillshade-illumination-direction": 335,
-        "hillshade-illumination-anchor": "map",
-        "hillshade-exaggeration": 1,
-        "hillshade-shadow-color": "#000000",
-        "hillshade-highlight-color": "#FFFFFF",
-        "hillshade-accent-color": "#000000"
-      }
-    });
-
   
 
 // API call 
@@ -154,9 +128,11 @@ useEffect(() => {
     geocoder.on("result", (result) => {
       let place = result.result.place_name
       console.log(place);
+      
     });
 
-     });
+     
+  });
 
    
 
@@ -180,7 +156,7 @@ useEffect(() => {
     });
   });
 
-
+ 
 
   return (
     <>
