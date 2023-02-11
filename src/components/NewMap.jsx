@@ -32,6 +32,7 @@ const NewMap = () => {
         .then(res => res.json())
         .then(data => {
           // Do something with the data
+          setLocation(data)
           console.log(data)
         });
     });
@@ -44,6 +45,7 @@ const NewMap = () => {
     setLocation(event.target.value);
     if (geocoderRef.current) {
       geocoderRef.current.query(location);
+      setLocation(null)
     }
   };
 
@@ -51,6 +53,16 @@ const NewMap = () => {
     <div>
       <input type="text" onChange={handleGeocoderInput} value={location} hidden/>
       <div ref={mapContainerRef} style={{ height: '400px', width: '100%' }} />
+      {location ? (
+        <div>
+          <h2>{location[0].name}</h2>
+          <p>Capital: {location[0].capital}</p>
+          <p>Population: {location[0].population}</p>
+          <p>Region: {location[0].region}</p>
+        </div>
+      ) : (
+        <div>Enter a location in the geocoder</div>
+      )}
     </div>
   );
 };
