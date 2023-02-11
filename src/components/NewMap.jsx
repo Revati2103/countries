@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import CountryDetails from './CountryDetails/CountryDetails';
 
 const MAPBOX_ACCESS_TOKEN = process.env.REACT_APP_MAPBOX;
 
@@ -53,16 +54,7 @@ const NewMap = () => {
     <div>
       <input type="text" onChange={handleGeocoderInput} value={location} hidden/>
       <div ref={mapContainerRef} style={{ height: '400px', width: '100%' }} />
-      {location ? (
-        <div>
-          <h2>{location[0].name}</h2>
-          <p>Capital: {location[0].capital}</p>
-          <p>Population: {location[0].population}</p>
-          <p>Region: {location[0].region}</p>
-        </div>
-      ) : (
-        <div>Enter a location in the geocoder</div>
-      )}
+      {location && <CountryDetails location={location}/>}
     </div>
   );
 };
