@@ -20,7 +20,8 @@ const NewMap = () => {
 
     const geocoder = new MapboxGeocoder({
       accessToken: MAPBOX_ACCESS_TOKEN,
-      mapboxgl: mapboxgl
+      mapboxgl: mapboxgl,
+      types: 'country'
     });
 
     geocoder.on('result', (ev) => {
@@ -48,7 +49,7 @@ const NewMap = () => {
 
   return (
     <div>
-      <input type="text" onChange={handleGeocoderInput} value={location} />
+      <input type="text" onChange={handleGeocoderInput} value={location} hidden/>
       <div ref={mapContainerRef} style={{ height: '400px', width: '100%' }} />
     </div>
   );
