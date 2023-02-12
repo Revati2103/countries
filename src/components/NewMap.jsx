@@ -25,17 +25,26 @@ const NewMap = () => {
       types: 'country'
     });
 
-    geocoder.on('result', (ev) => {
-      const selectedResult = ev.result;
-      const countryName = selectedResult.text;
 
-      fetch(`https://restcountries.com/v2/name/${countryName}?fullText=true`)
-        .then(res => res.json())
-        .then(data => {
-          // Do something with the data
-          setLocation(data)
-          console.log(data)
-        });
+    geocoder.on('result', function (ev) {
+     const selectedResult = ev.result;
+     console.log(selectedResult)
+     const countryName = selectedResult.text;
+     const countryCode = selectedResult.properties.short_code;
+    
+    
+      if (countryCode && countryName) {
+        fetch(`https://restcountries.com/v2/alpha/${countryCode}`)
+          .then(res => res.json())
+          .then(data => {
+    const languages = data.languages;
+    const languageNames = languages.map(language => language.name);
+
+    console.log(languageNames);
+            setLocation(data)
+           console.log(data)
+          });
+      }
     });
 
     map.addControl(geocoder);
@@ -54,7 +63,7 @@ const NewMap = () => {
     <div>
       <input type="text" onChange={handleGeocoderInput} value={location} hidden/>
       <div ref={mapContainerRef} style={{ height: '400px', width: '100%' }} />
-      {location && <CountryDetails location={location}/>}
+      {location && <CountryDetails location={location} />}
     </div>
   );
 };

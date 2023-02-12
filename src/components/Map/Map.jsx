@@ -75,16 +75,7 @@ const coordinatesGeocoder = function (query) {
   return geocodes;
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await axios.get(
-  //       `https://restcountries.com/v2/name/${countryName}`
-  //     );
 
-  //     setCountryDetails(response.data[0]);
-  //   };
-  //   fetchData();
-  // }, [countryName]);
 
 
 useEffect(() => {
