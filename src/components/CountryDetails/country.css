@@ -1,0 +1,13 @@
+.country-info{
+padding: 20px;
+margin: 20px;
+background-color: aliceblue;
+width: 250px;
+height: auto;
+
+}
+
+.info{
+    display: flex;
+    
+}

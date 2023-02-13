@@ -9,6 +9,7 @@ const NewMap = () => {
   const mapContainerRef = useRef(null);
   const geocoderRef = useRef(null);
   const [location, setLocation] = useState('');
+  const [news, setNews] = useState([]);
 
   useEffect(() => {
     mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
@@ -44,8 +45,20 @@ const NewMap = () => {
             setLocation(data)
            console.log(data)
           });
+
+          if(countryCode){
+            fetch(`https://newsapi.org/v2/top-headlines?country=${countryCode}&category=politics&language=en&apiKey=${process.env.REACT_APP_NEWS_API_KEY}`)
+  .then(res => res.json())
+  .then(data => {
+    const articles = data.articles.slice(0, 5);
+    setNews(articles)
+    console.log(data);
+  })
+          }
       }
     });
+
+  
 
     map.addControl(geocoder);
     geocoderRef.current = geocoder;
@@ -63,7 +76,7 @@ const NewMap = () => {
     <div>
       <input type="text" onChange={handleGeocoderInput} value={location} hidden/>
       <div ref={mapContainerRef} style={{ height: '400px', width: '100%' }} />
-      {location && <CountryDetails location={location} />}
+      {location && <CountryDetails location={location} news= {news}/>}
     </div>
   );
 };
