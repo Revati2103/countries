@@ -15,7 +15,8 @@ const NewMap = () => {
     mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
-      style: 'mapbox://styles/mapbox/streets-v11',
+      // style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/mapbox/satellite-streets-v12',
       center: [-73.96216, 40.80779],
       zoom: 12
     });
@@ -62,6 +63,10 @@ const NewMap = () => {
 
     map.addControl(geocoder);
     geocoderRef.current = geocoder;
+
+    map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
+    map.addControl(new mapboxgl.FullscreenControl(), 'bottom-left');
+    map.addControl(new mapboxgl.GeolocateControl(), 'bottom-left');
   }, []);
 
   const handleGeocoderInput = (event) => {

@@ -20,13 +20,6 @@ const CountryDetails = ({location, news}) => {
     
         </div>
         <p>Currency : {location.currencies[0].name + " " +location.currencies[0].symbol}</p>
-        {/* <div>Timezones:
-    
-          {location.timezones.map(timezone => (
-            <li>{timezone}</li>
-          ))}
-    
-          </div> */}
     
     </div>
     <div>

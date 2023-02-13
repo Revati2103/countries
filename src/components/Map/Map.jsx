@@ -21,8 +21,7 @@ const [lng, setLng] = useState(-74.50);
 const [lat, setLat] = useState(40.73);
 
 const [zoom, setZoom] = useState(9);
-// const [countryDetails, setCountryDetails] = useState({});
-// const [countryName, setCountryName] = useState("");
+
 
 
 /* Given a query in the form "lng, lat" or "lat, lng"
@@ -109,13 +108,7 @@ useEffect(() => {
 
   
 
-// API call 
 
-    // geocoder.on("result", function(e) {
-    //   console.log({Place: e.result.place_name});
-    //   console.log("Geocoder result", e.result);
-    //   console.log({Long: e.result.center[0] , Lat: e.result.center[1]})
-    // });
     geocoder.on("result", (result) => {
       let place = result.result.place_name
       console.log(place);
