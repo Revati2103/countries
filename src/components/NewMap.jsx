@@ -15,7 +15,6 @@ const NewMap = () => {
     mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
-      // style: 'mapbox://styles/mapbox/streets-v11',
       style: 'mapbox://styles/mapbox/satellite-streets-v12',
       center: [-73.96216, 40.80779],
       zoom: 12
