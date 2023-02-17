@@ -13,7 +13,7 @@ import MapTwo from './components/MapTwo';
 export default function App() {
 
   return (
-   <div>/
+   <div>
     <MapTwo />
    </div>
   );

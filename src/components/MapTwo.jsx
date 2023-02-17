@@ -7,12 +7,13 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 const MapTwo = () => {
 
   const mapContainer = useRef(null);
-
-
   const [popup, setPopup] = useState(null);
   const [location, setLocation] = useState('');
   const markerRef = useRef(null);
   const popupRef = useRef(null);
+
+  
+    
 
   useEffect(() => {
     const initialCamera = {
@@ -20,6 +21,7 @@ const MapTwo = () => {
         zoom: 1,
         bearing: 0,
         pitch: 60,
+        
       };
 
     const map = new mapboxgl.Map({
@@ -30,6 +32,16 @@ const MapTwo = () => {
       ...initialCamera
     });
 
+    map.on('load', () => {
+
+        map.jumpTo({
+            center: [0, 90],
+            pitch: 30,
+          });
+        // Rotate the map
+        map.rotateTo(180, { duration: 6000 });
+
+      });
 
 
     map.on('style.load', () => {
@@ -40,6 +52,8 @@ const MapTwo = () => {
         'horizon-blend': 0.1 // Exaggerate atmosphere (default is .1)
         });
      });
+
+     
   
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
@@ -59,10 +73,9 @@ const MapTwo = () => {
       }
     });
 
-
-
     geocoder.on('result', (event) => {
         const {center } = event.result;
+        
         map.flyTo({
             center,
             zoom: 9,
@@ -76,7 +89,7 @@ const MapTwo = () => {
       const coordinates = selectedFeature.center;
       const countryName = selectedFeature.text;
      const countryCode = selectedFeature.properties.short_code;
-
+    
      // remove previous marker and popup, if any
   if (markerRef.current) {
     markerRef.current.remove();
@@ -120,10 +133,7 @@ const MapTwo = () => {
           <p>${languageNames}</p>
         </div>
         <p>Currency : ${data.currencies[0].name + " " +data.currencies[0].symbol}</p>
-    
-   
-            
-            
+      
             `);
     
             popupRef.current = popup;
@@ -145,6 +155,8 @@ const MapTwo = () => {
     map.addControl(new mapboxgl.FullscreenControl(), 'bottom-left');
     map.addControl(new mapboxgl.GeolocateControl(), 'bottom-left');
 
+
+
     return () => {
       map.remove();
     };
@@ -153,7 +165,7 @@ const MapTwo = () => {
 
   
 
-  return <div ref={mapContainer} style={{ height: '100vh', width: '100vw' }}  />;
+  return (<div ref={mapContainer} style={{ height: '100vh', width: '100vw' , marginTop: '0px' }}></div>);
 };
 
 export default MapTwo;
