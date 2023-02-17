@@ -16,24 +16,42 @@
     .mapboxgl-ctrl-geocoder {
      
     min-width: 100%;
+    
 
     }
+
+    /* .mapboxgl-ctrl-geocoder {
+      width: 300px!important;
+  } */
 
     .mapboxgl-popup-content {
       font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', sans-serif;
-      padding: 20;
-      width: 280px;
-      text-align: center;
+      padding: 10px;
+      width: 300px;
+      text-align:center;
       justify-content: center;
-      color:blueviolet
-    }
-    .mapboxgl-popup-content div {
+      color:blueviolet;
       background-color: aliceblue;
+    }
+    /* .mapboxgl-popup-content div {
+      background-color: whitesmoke;
+    } */
+    .mapboxgl-popup-content h2 {
+      background: darkorchid;
+      color: #fff;
+      padding: 10px;
+      border-radius: 3px 3px 0 0;
+      font-weight: 700;
+       margin-top: 5px;
     }
     .mapboxgl-popup-content img {
       width: 50px;
     } 
-
+    .mapboxgl-popup-content p {
+      color: darkorchid;
+    }
+   
+    
     /* .country-info{
       padding: 20px;
       margin: 20px;
@@ -49,11 +67,11 @@
       } */
     
     /* Marker tweaks */
-/* .mapboxgl-popup-close-button {
-  display: none;
-}
+/* 
 
-
+.mapboxgl-popup-close-button {
+      display: none;
+    }
 
 .mapboxgl-popup-content h3 {
   background: #91c949;

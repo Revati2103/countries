@@ -30,12 +30,22 @@ const MapTwo = () => {
       ...initialCamera
     });
 
+
+
+    map.on('style.load', () => {
+        // Custom atmosphere styling
+        map.setFog({
+        'color': 'rgb(220, 159, 159)', // Pink fog / lower atmosphere
+        'high-color': 'rgb(36, 92, 223)', // Blue sky / upper atmosphere
+        'horizon-blend': 0.1 // Exaggerate atmosphere (default is .1)
+        });
+     });
   
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
       types: 'country',
-      placeholder: 'Search for a location',
+      placeholder: 'Search any country...',
     });
 
 
@@ -56,7 +66,8 @@ const MapTwo = () => {
         map.flyTo({
             center,
             zoom: 9,
-            duration: 5000, 
+            duration: 12000,
+            essential: true,
             easing: (t) => {
               return t;
             },
@@ -76,7 +87,14 @@ const MapTwo = () => {
 
       const marker = new mapboxgl.Marker({ title: 'Click to learn more' }).setLngLat(coordinates).addTo(map);
       console.log('Marker:', marker);
+
+      marker.on('flyend', () => {
+        marker.togglePopup();
+      });
+
       markerRef.current = marker;
+     // markerRef.current.flyTo({ center });
+   
 
 
     //  API call 
@@ -88,22 +106,22 @@ const MapTwo = () => {
             setLocation(data)
             const languages = data.languages;
     const languageNames = languages.map(language => language.name);
-            const popup = new mapboxgl.Popup()
+            const popup = new mapboxgl.Popup({ offset: 15, anchor: 'left' })
             .setHTML(`
-            <div className='country-info'>
-        <h2>${data.name}</h2>
+           
+       <h2>${data.name}</h2>
         <img src=${data.flags.png} alt="flag" style={{
             width: 2
           }}/>
         <p>Capital: ${data.capital}</p>
         <p>Population: ${data.population}</p>
         <p>Continent: ${data.region}</p>
-        <div>Languages:
-          ${languageNames}
+        <div>Language(s):
+          <p>${languageNames}</p>
         </div>
         <p>Currency : ${data.currencies[0].name + " " +data.currencies[0].symbol}</p>
     
-    </div>
+   
             
             
             `);
@@ -123,13 +141,21 @@ const MapTwo = () => {
 
     });
 
+    map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
+    map.addControl(new mapboxgl.FullscreenControl(), 'bottom-left');
+    map.addControl(new mapboxgl.GeolocateControl(), 'bottom-left');
+
     return () => {
       map.remove();
     };
 
   }, [popup]);
 
+  
+
   return <div ref={mapContainer} style={{ height: '100vh', width: '100vw' }}  />;
 };
 
 export default MapTwo;
+
+
