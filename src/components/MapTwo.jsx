@@ -11,16 +11,14 @@ const MapTwo = () => {
   const [location, setLocation] = useState('');
   const markerRef = useRef(null);
   const popupRef = useRef(null);
-
-  
-    
-
+const [map, setMap] = useState(null);
+ 
   useEffect(() => {
     const initialCamera = {
-        center: [0, 0],
+        center: [0, 90],
         zoom: 1,
         bearing: 0,
-        pitch: 60,
+        pitch: 30,
         
       };
 
@@ -40,6 +38,15 @@ const MapTwo = () => {
           });
         // Rotate the map
         map.rotateTo(180, { duration: 6000 });
+
+        // Add button to reset view to initial camera position
+        const resetViewButton = document.createElement('button');
+        resetViewButton.innerHTML = 'Reset View';
+        resetViewButton.classList.add("reset-btn");
+        resetViewButton.addEventListener('click', () => {
+          map.flyTo(initialCamera);
+        });
+        map.getContainer().appendChild(resetViewButton);
 
       });
 
@@ -98,7 +105,7 @@ const MapTwo = () => {
     popupRef.current.remove();
   }
 
-      const marker = new mapboxgl.Marker({ title: 'Click to learn more' }).setLngLat(coordinates).addTo(map);
+      const marker = new mapboxgl.Marker({ title: 'Click to learn more', color: '#DB2777' }).setLngLat(coordinates).addTo(map);
       console.log('Marker:', marker);
 
       marker.on('flyend', () => {
@@ -119,7 +126,7 @@ const MapTwo = () => {
             setLocation(data)
             const languages = data.languages;
     const languageNames = languages.map(language => language.name);
-            const popup = new mapboxgl.Popup({ offset: 15, anchor: 'left' })
+            const popup = new mapboxgl.Popup({ offset: 15, anchor: 'right' })
             .setHTML(`
            
        <h2>${data.name}</h2>
@@ -139,6 +146,18 @@ const MapTwo = () => {
             popupRef.current = popup;
     
             console.log('Popup:', popup);
+
+            // Add a class to the popup if the screen size is small
+if (window.innerWidth < 600) {
+    popup.addClassName('mobile-popup');
+}
+
+// Remove the class if the screen size changes to a larger size
+window.addEventListener('resize', () => {
+    if (window.innerWidth >= 600) {
+        popup.removeClassName('mobile-popup');
+    }
+});
             marker.setPopup(popup).togglePopup();
             console.log(location);
         })
@@ -151,11 +170,12 @@ const MapTwo = () => {
 
     });
 
+
     map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
     map.addControl(new mapboxgl.FullscreenControl(), 'bottom-left');
     map.addControl(new mapboxgl.GeolocateControl(), 'bottom-left');
 
-
+ 
 
     return () => {
       map.remove();
@@ -164,8 +184,20 @@ const MapTwo = () => {
   }, [popup]);
 
   
+  return (
+  <div>
+      
+      <div ref={mapContainer} style={{ height: '100vh', width: '100vw' , marginTop: '0px' }}>
 
-  return (<div ref={mapContainer} style={{ height: '100vh', width: '100vw' , marginTop: '0px' }}></div>);
+     </div>
+
+ 
+       
+  
+      
+  </div>
+  
+  );
 };
 
 export default MapTwo;
