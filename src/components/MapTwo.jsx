@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
 const MapTwo = () => {
+
 
   const mapContainer = useRef(null);
   const [popup, setPopup] = useState(null);
@@ -126,7 +128,7 @@ const MapTwo = () => {
             setLocation(data)
             const languages = data.languages;
     const languageNames = languages.map(language => language.name);
-            const popup = new mapboxgl.Popup({ offset: 15, anchor: 'left' })
+            const popup = new mapboxgl.Popup({ offset: 10, anchor: 'left' })
             .setHTML(`
            
        <h2>${data.name}</h2>
@@ -147,17 +149,17 @@ const MapTwo = () => {
     
             console.log('Popup:', popup);
 
-            // Add a class to the popup if the screen size is small
-if (window.innerWidth < 600) {
-    popup.addClassName('mobile-popup');
-}
+//             // Add a class to the popup if the screen size is small
+// if (window.innerWidth < 600) {
+//     popup.addClassName('mobile-popup');
+// }
 
-// Remove the class if the screen size changes to a larger size
-window.addEventListener('resize', () => {
-    if (window.innerWidth >= 600) {
-        popup.removeClassName('mobile-popup');
-    }
-});
+// // Remove the class if the screen size changes to a larger size
+// window.addEventListener('resize', () => {
+//     if (window.innerWidth >= 600) {
+//         popup.removeClassName('mobile-popup');
+//     }
+// });
             marker.setPopup(popup).togglePopup();
             console.log(location);
         })
@@ -173,7 +175,6 @@ window.addEventListener('resize', () => {
 
     map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
     map.addControl(new mapboxgl.FullscreenControl(), 'bottom-left');
-    map.addControl(new mapboxgl.GeolocateControl(), 'bottom-left');
 
  
 
