@@ -58,6 +58,10 @@ color: #fff;
     color: darkorchid;
   }
  
+  .mapboxgl-ctrl-attrib{
+    bottom: 28px;
+    font-size: smaller;
+  }
 
   /* Media Queries */
 

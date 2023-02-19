@@ -149,17 +149,6 @@ const MapTwo = () => {
     
             console.log('Popup:', popup);
 
-//             // Add a class to the popup if the screen size is small
-// if (window.innerWidth < 600) {
-//     popup.addClassName('mobile-popup');
-// }
-
-// // Remove the class if the screen size changes to a larger size
-// window.addEventListener('resize', () => {
-//     if (window.innerWidth >= 600) {
-//         popup.removeClassName('mobile-popup');
-//     }
-// });
             marker.setPopup(popup).togglePopup();
             console.log(location);
         })
@@ -188,7 +177,7 @@ const MapTwo = () => {
   return (
   <div>
       
-      <div ref={mapContainer} style={{ height: '95vh', width: '100vw' , marginTop: '0px' }}>
+      <div ref={mapContainer} style={{ height: '97vh', width: '100vw' , marginTop: '0px' }}>
 
      </div>
 
