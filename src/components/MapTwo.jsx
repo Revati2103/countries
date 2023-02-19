@@ -41,7 +41,7 @@ const MapTwo = () => {
 
         // Add button to reset view to initial camera position
         const resetViewButton = document.createElement('button');
-        resetViewButton.innerHTML = 'Reset View';
+        resetViewButton.innerHTML = 'Reset';
         resetViewButton.classList.add("reset-btn");
         resetViewButton.addEventListener('click', () => {
           map.flyTo(initialCamera);
@@ -126,7 +126,7 @@ const MapTwo = () => {
             setLocation(data)
             const languages = data.languages;
     const languageNames = languages.map(language => language.name);
-            const popup = new mapboxgl.Popup({ offset: 15, anchor: 'right' })
+            const popup = new mapboxgl.Popup({ offset: 15, anchor: 'left' })
             .setHTML(`
            
        <h2>${data.name}</h2>
@@ -187,7 +187,7 @@ window.addEventListener('resize', () => {
   return (
   <div>
       
-      <div ref={mapContainer} style={{ height: '100vh', width: '100vw' , marginTop: '0px' }}>
+      <div ref={mapContainer} style={{ height: '95vh', width: '100vw' , marginTop: '0px' }}>
 
      </div>
 
