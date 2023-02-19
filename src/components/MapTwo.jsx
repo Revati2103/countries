@@ -11,7 +11,6 @@ const MapTwo = () => {
   const [location, setLocation] = useState('');
   const markerRef = useRef(null);
   const popupRef = useRef(null);
-const [map, setMap] = useState(null);
  
   useEffect(() => {
     const initialCamera = {
@@ -37,6 +36,7 @@ const [map, setMap] = useState(null);
             pitch: 30,
           });
         // Rotate the map
+    
         map.rotateTo(180, { duration: 6000 });
 
         // Add button to reset view to initial camera position
@@ -180,7 +180,7 @@ window.addEventListener('resize', () => {
     return () => {
       map.remove();
     };
-
+// eslint-disable-next-line 
   }, [popup]);
 
   
