@@ -17,7 +17,7 @@ const MapTwo = () => {
         center: [0, 90],
         zoom: 1,
         bearing: 0,
-        pitch: 30,
+        pitch: 0,
         
       };
 
@@ -33,7 +33,7 @@ const MapTwo = () => {
 
         map.jumpTo({
             center: [0, 90],
-            pitch: 30,
+            pitch: 0,
           });
         // Rotate the map
     
