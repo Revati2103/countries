@@ -184,7 +184,8 @@ const Map = () => {
         { 
           height: '97vh', 
           width: '100vw' , 
-          marginTop: '0px' 
+          marginTop: '0px' ,
+          position: 'fixed'
         }
       }>
 
