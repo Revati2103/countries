@@ -10,7 +10,6 @@ const Map = () => {
 
   const mapContainer = useRef(null);
   const [popup, setPopup] = useState(null);
-  const [location, setLocation] = useState('');
   const markerRef = useRef(null);
   const popupRef = useRef(null);
  
@@ -117,7 +116,7 @@ const Map = () => {
     // Setup marker for selected result
 
       const marker = new mapboxgl.Marker({ title: 'Click to learn more', color: '#DB2777' }).setLngLat(coordinates).addTo(map);
-      console.log('Marker:', marker);
+     
 
       marker.on('flyend', () => {
         marker.togglePopup();
@@ -134,9 +133,9 @@ const Map = () => {
         fetch(`https://restcountries.com/v2/alpha/${countryCode}`)
         .then(res => res.json())
         .then(data => {
-            setLocation(data)
+    
             const languages = data.languages;
-    const languageNames = languages.map(language => language.name);
+            const languageNames = languages.map(language => language.name);
             const popup = new mapboxgl.Popup({ offset: 10, anchor: 'left' })
             .setHTML(`
            
@@ -156,10 +155,8 @@ const Map = () => {
     
             popupRef.current = popup;
     
-            console.log('Popup:', popup);
-
             marker.setPopup(popup).togglePopup();
-            console.log(location);
+           
         })   
     }   
 
