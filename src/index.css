@@ -96,8 +96,8 @@ padding: 14px 24px;
       transform: translate(0px, -50%) translate(217px, 426px);
     }
 
-    .mapboxgl-ctrl-bottom-left{
-      bottom: 5px
+    .mapboxgl-ctrl-bottom-left .mapboxgl-ctrl-group{
+     display: none;
     }
 
   }
