@@ -5,7 +5,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX;
 
-const MapTwo = () => {
+const Map = () => {
 
 
   const mapContainer = useRef(null);
@@ -15,6 +15,9 @@ const MapTwo = () => {
   const popupRef = useRef(null);
  
   useEffect(() => {
+
+    // Set up the default view
+
     const initialCamera = {
         center: [0, 90],
         zoom: 1,
@@ -42,6 +45,7 @@ const MapTwo = () => {
         map.rotateTo(180, { duration: 6000 });
 
         // Add button to reset view to initial camera position
+
         const resetViewButton = document.createElement('button');
         resetViewButton.innerHTML = 'Reset';
         resetViewButton.classList.add("reset-btn");
@@ -54,11 +58,13 @@ const MapTwo = () => {
 
 
     map.on('style.load', () => {
+
         // Custom atmosphere styling
+
         map.setFog({
         'color': 'rgb(220, 159, 159)', // Pink fog / lower atmosphere
         'high-color': 'rgb(36, 92, 223)', // Blue sky / upper atmosphere
-        'horizon-blend': 0.1 // Exaggerate atmosphere (default is .1)
+        'horizon-blend': 0.1 
         });
      });
 
@@ -94,18 +100,21 @@ const MapTwo = () => {
               return t;
             },
           });
-      const selectedFeature = event.result;
-      const coordinates = selectedFeature.center;
-      const countryName = selectedFeature.text;
+     const selectedFeature = event.result;
+     const coordinates = selectedFeature.center;
+     const countryName = selectedFeature.text;
      const countryCode = selectedFeature.properties.short_code;
     
      // remove previous marker and popup, if any
+
   if (markerRef.current) {
     markerRef.current.remove();
   }
   if (popupRef.current) {
     popupRef.current.remove();
   }
+
+    // Setup marker for selected result
 
       const marker = new mapboxgl.Marker({ title: 'Click to learn more', color: '#DB2777' }).setLngLat(coordinates).addTo(map);
       console.log('Marker:', marker);
@@ -115,11 +124,11 @@ const MapTwo = () => {
       });
 
       markerRef.current = marker;
-     // markerRef.current.flyTo({ center });
+    
    
 
 
-    //  API call 
+    //  API call & populate Popup with the fetched data
        
     if (countryCode && countryName) {
         fetch(`https://restcountries.com/v2/alpha/${countryCode}`)
@@ -151,21 +160,15 @@ const MapTwo = () => {
 
             marker.setPopup(popup).togglePopup();
             console.log(location);
-        })
-   
-    
-       
+        })   
     }   
-
-   
 
     });
 
+    // Add controls for Navigation & Fullscreen
 
     map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
     map.addControl(new mapboxgl.FullscreenControl(), 'bottom-left');
-
- 
 
     return () => {
       map.remove();
@@ -175,21 +178,24 @@ const MapTwo = () => {
 
   
   return (
-  <div>
+    <div>
       
-      <div ref={mapContainer} style={{ height: '97vh', width: '100vw' , marginTop: '0px' }}>
+      <div ref={mapContainer} style={
+        { 
+          height: '97vh', 
+          width: '100vw' , 
+          marginTop: '0px' 
+        }
+      }>
 
      </div>
 
- 
-       
-  
       
   </div>
   
   );
 };
 
-export default MapTwo;
+export default Map;
 
 
