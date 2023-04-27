@@ -9,6 +9,7 @@ Explore any country in the world !
 - [Demo](#demo)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Screenshots](#screenshots)
 - [License](#license)
 
 ## Overview
@@ -36,6 +37,9 @@ To use this project, follow these steps:
 3. The globe will rotate to show the location of the country.
 4. A popup with some information about the country will be displayed.
 
+## Screenshots
+
+![Alt text](./countries.png "Countries")
 
 
 ## License
