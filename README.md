@@ -6,7 +6,7 @@ Explore any country in the world !
 ## Table of Contents
 
 - [Overview](#overview)
-- [Demo](#demo)
+- [Live](#live)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Screenshots](#screenshots)
