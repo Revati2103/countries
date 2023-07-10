@@ -18,7 +18,7 @@ This project is a web application that utilizes the Mapbox GL JS library along w
 
 ## Live
 
-[https://main.d1r907ncq68mv7.amplifyapp.com/](https://countries-around-the-world.vercel.app/)
+[https://countries-around-the-world.vercel.app/]
 
 ## Installation
 
