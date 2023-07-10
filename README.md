@@ -16,9 +16,9 @@ Explore any country in the world !
 
 This project is a web application that utilizes the Mapbox GL JS library along with React.js to display a 3D globe. Users can select any country from the search input and they will be directed to the location of the country on the globe. Upon landing, a popup containing some information about the country will be displayed. It utilizes the REST Countries API to fetch data about countries based on country codes.
 
-## Demo
+## Live
 
-https://main.d1r907ncq68mv7.amplifyapp.com/
+[https://main.d1r907ncq68mv7.amplifyapp.com/](https://countries-around-the-world.vercel.app/)
 
 ## Installation
 
